@@ -261,7 +261,6 @@ def evaluate(data_loader, context=ctx[0]):
 
 
 def train():
-    import ipdb; ipdb.set_trace()
     """Training function."""
     trainer = gluon.Trainer(model.collect_params(), args.optimizer,
                             {'learning_rate': args.lr, 'beta2': 0.98, 'epsilon': 1e-9})
