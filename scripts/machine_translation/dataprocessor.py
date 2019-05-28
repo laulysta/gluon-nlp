@@ -152,6 +152,18 @@ def load_translation_data(dataset, bleu, args):
         data_train = _dataset.TOY('train', src_lang=src_lang, tgt_lang=tgt_lang)
         data_val = _dataset.TOY('val', src_lang=src_lang, tgt_lang=tgt_lang)
         data_test = _dataset.TOY('test', src_lang=src_lang, tgt_lang=tgt_lang)
+    elif dataset == 'WMT2016BPE_shine':
+        common_prefix = 'WMT2016BPE_shine_{}_{}_{}_{}'.format(src_lang, tgt_lang,
+                                                        args.src_max_len, args.tgt_max_len)
+        data_train = nlp.data.WMT2016BPE_shine('train', src_lang=src_lang, tgt_lang=tgt_lang, root=args.dataset_path)
+        data_val = nlp.data.WMT2016BPE_shine('val', src_lang=src_lang, tgt_lang=tgt_lang, root=args.dataset_path)
+        data_test = nlp.data.WMT2016BPE_shine('test', src_lang=src_lang, tgt_lang=tgt_lang, root=args.dataset_path)
+    elif dataset == 'TOY_shine':
+        common_prefix = 'TOY_shine_{}_{}_{}_{}'.format(src_lang, tgt_lang,
+                                                        args.src_max_len, args.tgt_max_len)
+        data_train = nlp.data.TOY_shine('train', src_lang=src_lang, tgt_lang=tgt_lang, root=args.dataset_path)
+        data_val = nlp.data.TOY_shine('val', src_lang=src_lang, tgt_lang=tgt_lang, root=args.dataset_path)
+        data_test = nlp.data.TOY_shine('test', src_lang=src_lang, tgt_lang=tgt_lang, root=args.dataset_path)
     else:
         raise NotImplementedError
     src_vocab, tgt_vocab = data_train.src_vocab, data_train.tgt_vocab
@@ -188,6 +200,12 @@ def load_translation_data(dataset, bleu, args):
         elif dataset == 'IWSLT2015' or dataset == 'TOY':
             val_text = data_val
             test_text = data_test
+        elif dataset == 'WMT2016BPE_shine':
+            val_text = nlp.data.WMT2016BPE_shine('val_text', src_lang=src_lang, tgt_lang=tgt_lang)
+            test_text = nlp.data.WMT2016BPE_shine('test_text', src_lang=src_lang, tgt_lang=tgt_lang)
+        elif dataset == 'TOY_shine':
+            val_text = nlp.data.TOY_shine('val_text', src_lang=src_lang, tgt_lang=tgt_lang)
+            test_text = nlp.data.TOY_shine('test_text', src_lang=src_lang, tgt_lang=tgt_lang)
         else:
             raise NotImplementedError
         val_tgt_sentences = list(val_text.transform(fetch_tgt_sentence))

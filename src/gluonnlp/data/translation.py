@@ -20,7 +20,7 @@
 # pylint: disable=
 """Machine translation datasets."""
 
-__all__ = ['IWSLT2015', 'WMT2014', 'WMT2014BPE', 'WMT2016', 'WMT2016BPE']
+__all__ = ['IWSLT2015', 'WMT2014', 'WMT2014BPE', 'WMT2016', 'WMT2016BPE', 'WMT2016BPE_shine', 'TOY_shine']
 
 
 import os
@@ -460,5 +460,113 @@ class WMT2016BPE(_TranslationDataset):
                                 'vocab_de': ('vocab.bpe.32000.json',
                                              '1c5aea0a77cad592c4e9c1136ec3b70ceeff4e8c')}}
         super(WMT2016BPE, self).__init__('wmt2016', segment=segment, src_lang=src_lang,
+                                         tgt_lang=tgt_lang,
+                                         root=os.path.join(root, _get_pair_key(src_lang, tgt_lang)))
+
+class WMT2016BPE_shine(_TranslationDataset):
+    """Preprocessed Translation Corpus of the WMT2016 Evaluation Campaign.
+
+    We use the preprocessing script in
+    https://github.com/tensorflow/nmt/blob/master/nmt/scripts/wmt16_en_de.sh
+
+    Parameters
+    ----------
+    segment : str or list of str, default 'train'
+        Dataset segment. Options are 'train', 'val', 'test' or their combinations
+    src_lang : str, default 'en'
+        The source language. Option for source and target languages are 'en' <-> 'ro'
+    tgt_lang : str, default 'ro'
+        The target language. Option for source and target languages are 'en' <-> 'ro'
+    root : str, default '$MXNET_HOME/datasets/wmt2016_shine'
+        Path to temp folder for storing data.
+        MXNET_HOME defaults to '~/.mxnet'.
+    """
+    def __init__(self, segment='train', src_lang='en', tgt_lang='ro', root=''):
+        if root == '':
+            root=os.path.join(get_home_dir(), 'datasets', 'wmt2016_shine')
+        self._supported_segments = ['train', 'val', 'test', 'val_text', 'test_text']
+        self._archive_file = {_get_pair_key('ro', 'en'):
+                                  ('wmt2016_en_ro.zip',
+                                   '')}
+        self._data_file = {_get_pair_key('ro', 'en'):
+                               {'train_en': ('train.BPE.en',
+                                             ''),
+                                'train_ro': ('train.BPE.ro',
+                                             ''),
+                                'val_en': ('dev.BPE.en',
+                                           ''),
+                                'val_ro': ('dev.BPE.ro',
+                                           ''),
+                                'test_en': ('test.BPE.en',
+                                            ''),
+                                'test_ro': ('test.BPE.ro',
+                                            ''),
+                                'val_text_en': ('dev.en.tok',
+                                           ''),
+                                'val_text_ro': ('dev.ro.tok',
+                                           ''),
+                                'test_text_en': ('test.en.tok',
+                                            ''),
+                                'test_text_ro': ('test.ro.tok',
+                                            ''),
+                                'vocab_en': ('vocab.BPE.json',
+                                             ''),
+                                'vocab_ro' : ('vocab.BPE.json',
+                                              '')}}
+        super(WMT2016BPE_shine, self).__init__('wmt2016_shine', segment=segment, src_lang=src_lang,
+                                                tgt_lang=tgt_lang,
+                                                root=os.path.join(root, _get_pair_key(src_lang, tgt_lang)))
+
+class TOY_shine(_TranslationDataset):
+    """Preprocessed Translation Corpus of the WMT2016 Evaluation Campaign.
+
+    We use the preprocessing script in
+    https://github.com/tensorflow/nmt/blob/master/nmt/scripts/wmt16_en_de.sh
+
+    Parameters
+    ----------
+    segment : str or list of str, default 'train'
+        Dataset segment. Options are 'train', 'val', 'test' or their combinations
+    src_lang : str, default 'en'
+        The source language. Option for source and target languages are 'en' <-> 'ro'
+    tgt_lang : str, default 'ro'
+        The target language. Option for source and target languages are 'en' <-> 'ro'
+    root : str, default '$MXNET_HOME/datasets/wmt2016_shine'
+        Path to temp folder for storing data.
+        MXNET_HOME defaults to '~/.mxnet'.
+    """
+    def __init__(self, segment='train', src_lang='en', tgt_lang='ro', root=''):
+        if root == '':
+            root=os.path.join(get_home_dir(), 'datasets', 'toy_shine')
+        self._supported_segments = ['train', 'val', 'test', 'val_text', 'test_text']
+        self._archive_file = {_get_pair_key('ro', 'en'):
+                                  ('wmt2016_small_en_ro.zip',
+                                   '')}
+        self._data_file = {_get_pair_key('ro', 'en'):
+                               {'train_en': ('train.BPE.en',
+                                             ''),
+                                'train_ro': ('train.BPE.ro',
+                                             ''),
+                                'val_en': ('dev.BPE.en',
+                                           ''),
+                                'val_ro': ('dev.BPE.ro',
+                                           ''),
+                                'test_en': ('test.BPE.en',
+                                            ''),
+                                'test_ro': ('test.BPE.ro',
+                                            ''),
+                                'val_text_en': ('dev.en.tok',
+                                           ''),
+                                'val_text_ro': ('dev.ro.tok',
+                                           ''),
+                                'test_text_en': ('test.en.tok',
+                                            ''),
+                                'test_text_ro': ('test.ro.tok',
+                                            ''),
+                                'vocab_en': ('vocab.BPE.json',
+                                             ''),
+                                'vocab_ro' : ('vocab.BPE.json',
+                                              '')}}
+        super(TOY_shine, self).__init__('toy_shine', segment=segment, src_lang=src_lang,
                                          tgt_lang=tgt_lang,
                                          root=os.path.join(root, _get_pair_key(src_lang, tgt_lang)))

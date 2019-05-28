@@ -61,6 +61,7 @@ mx.random.seed(10000)
 parser = argparse.ArgumentParser(description='Neural Machine Translation Example.'
                                              'We train the Transformer Model')
 parser.add_argument('--dataset', type=str, default='WMT2016BPE', help='Dataset to use.')
+parser.add_argument('--dataset_path', type=str, default='', help='Dataset path.')
 parser.add_argument('--src_lang', type=str, default='en', help='Source language')
 parser.add_argument('--tgt_lang', type=str, default='de', help='Target language')
 parser.add_argument('--epochs', type=int, default=10, help='upper epoch limit')
@@ -260,6 +261,7 @@ def evaluate(data_loader, context=ctx[0]):
 
 
 def train():
+    import ipdb; ipdb.set_trace()
     """Training function."""
     trainer = gluon.Trainer(model.collect_params(), args.optimizer,
                             {'learning_rate': args.lr, 'beta2': 0.98, 'epsilon': 1e-9})
